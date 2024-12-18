@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laporan Penjualan</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+    th, td {
+      padding: 8px;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    canvas {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+    <h2>Laporan Penjualan</h2>
+    <table id="data-table">
+      <thead>
+        <tr>
+          <th>Bulan</th>
+          <th>2022</th>
+          <th>2023</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Januari</td><td>3860</td><td>9231</td></tr>
+        <tr><td>Februari</td><td>8390</td><td>6444</td></tr>
+        <tr><td>Maret</td><td>8226</td><td>6171</td></tr>
+        <tr><td>April</td><td>8191</td><td>5919</td></tr>
+        <tr><td>Mei</td><td>6772</td><td>3130</td></tr>
+        <tr><td>Juni</td><td>6092</td><td>4685</td></tr>
+        <tr><td>Juli</td><td>8734</td><td>3769</td></tr>
+        <tr><td>Agustus</td><td>9265</td><td>5391</td></tr>
+        <tr><td>September</td><td>3466</td><td>8611</td></tr>
+        <tr><td>Oktober</td><td>8334</td><td>9949</td></tr>
+        <tr><td>November</td><td>7426</td><td>5433</td></tr>
+        <tr><td>Desember</td><td>8578</td><td>8311</td></tr>
+      </tbody>
+    </table>
+    
+  </table>
+
+  <canvas id="salesChart"></canvas>
+
+  <script>
+    const ctx = document.getElementById('salesChart').getContext('2d');
+    const table = document.getElementById("data-table");
+    const rows = table.getElementsByTagName("tr");
+
+    const labels = [];
+    const data2022 = [];
+    const data2023 = [];
+
+    // Mengambil data dari tabel
+    for (let i = 1; i < rows.length; i++) {
+      const cells = rows[i].getElementsByTagName("td");
+      labels.push(cells[0].innerText);
+      data2022.push(parseInt(cells[1].innerText));
+      data2023.push(parseInt(cells[2].innerText));
+    }
+
+    // Membuat diagram batang dengan Chart.js
+    const salesChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: '2022',
+            data: data2022,
+            backgroundColor: 'rgba(54, 162, 300, 0.6)',
+            borderColor: 'rgba(54, 162, 300, 0.6)',
+            borderWidth: 1
+          },
+          {
+            label: '2023',
+            data: data2023,
+            backgroundColor: 'rgba(255, 99, 1200, 0.6)',
+            borderColor: 'rgba(255, 99, 1200, 0.6)',
+            borderWidth: 1
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: function(value) {
+                return value.toLocaleString();
+              }
+            }
+          }
+        },
+        plugins: {
+          title: {
+            display: true,
+            text: 'Laporan Penjualan'
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
